@@ -1,0 +1,37 @@
+/* src/app.css */
+:root {
+  --button-color-1: #01923E;
+  --bg-color-1: #01923E;
+  --button-color-1-hover: #027231;
+  --text-color: #1E1718;
+  --bg-color: #ffffff;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.fit-screen{
+  min-height: calc(100vh - 56px);
+}
+.bg-color-1{
+  background-color: var(--bg-color-1);
+}
+
+.button-green {
+  background-color: var(--button-color-1);
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button-green:hover{
+  background-color: var(--button-color-1-hover);
+  color: white;
+}
