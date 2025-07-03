@@ -53,7 +53,7 @@ const AddProduct = () => {
         return;
       }
 
-      const res = await fetch('http://localhost:5000/api/products/create', {
+      const res = await fetch(`${process.env.API_URL}/api/products/create`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`

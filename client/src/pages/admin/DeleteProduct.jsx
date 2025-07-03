@@ -38,7 +38,7 @@ const DeleteProduct = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:5000/api/products/');
+      const response = await fetch(`${process.env.API_URL}/api/products/'`);
       const data = await response.json();
       
       if (data.success) {
@@ -74,7 +74,7 @@ const DeleteProduct = () => {
         return;
       }
 
-      const response = await fetch(`http://localhost:5000/api/products/${productId}`, {
+      const response = await fetch(`${process.env.API_URL}/api/products/${productId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
