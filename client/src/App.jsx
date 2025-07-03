@@ -19,6 +19,7 @@ function App() {
         <Route path="/admin/add" element={<AddProduct />} />
         <Route path="/admin/delete" element={<DeleteProduct />} />
         <Route path="/admin/modify" element={<ModifyProduct />} />
+        <Route path="*" element={<Home />} />
       </Routes>
     </>
   );
