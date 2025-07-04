@@ -32,4 +32,19 @@ console.log('📄 All admins from DB:', all);
   }
 });
 
+// Get current admin profile
+router.get('/profile', authMiddleware, async (req, res) => {
+  try {
+    const admin = await Admin.findById(req.admin._id).select('-password');
+    res.json({ 
+      success: true, 
+      username: admin.username,
+      role: admin.role 
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
 module.exports = router;

@@ -18,6 +18,12 @@ body {
 .fit-screen{
   min-height: calc(100vh - 56px);
 }
+
+.content-area{
+  margin-left: 280px;
+  margin-top: 56px;
+}
+
 .bg-color-1{
   background-color: var(--bg-color-1);
 }
@@ -34,4 +40,11 @@ body {
 .button-green:hover{
   background-color: var(--button-color-1-hover);
   color: white;
+}
+
+@media screen and (max-width:767px) {
+  .content-area{
+    margin-left: 0px;
+    margin-top: 56px;
+  }
 }

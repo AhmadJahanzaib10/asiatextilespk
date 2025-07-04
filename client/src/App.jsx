@@ -16,9 +16,9 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path="/admin" element={<AdminPage baseURL={baseURL}/>} />
-        <Route path="/admin/add" element={<AddProduct />} />
-        <Route path="/admin/delete" element={<DeleteProduct />} />
-        <Route path="/admin/modify" element={<ModifyProduct />} />
+        <Route path="/admin/add" element={<AddProduct baseURL={baseURL} />} />
+        <Route path="/admin/delete" element={<DeleteProduct baseURL={baseURL} />} />
+        <Route path="/admin/modify" element={<ModifyProduct baseURL={baseURL} />} />
         <Route path="*" element={<Home />} />
       </Routes>
     </>

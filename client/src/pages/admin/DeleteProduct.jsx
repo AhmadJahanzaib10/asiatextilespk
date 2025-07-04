@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../../components/Sidebar';
+import { useNavigate } from 'react-router-dom';
 
-const DeleteProduct = () => {
+
+const DeleteProduct = ({baseURL}) => {
+  const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -12,6 +15,11 @@ const DeleteProduct = () => {
 
   // Fetch all products on component mount
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate("/admin")
+      return;
+    }
     fetchProducts();
   }, []);
 
@@ -38,7 +46,7 @@ const DeleteProduct = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${process.env.API_URL}/api/products/'`);
+      const response = await fetch(`${baseURL}/api/products/`);
       const data = await response.json();
       
       if (data.success) {
@@ -74,7 +82,7 @@ const DeleteProduct = () => {
         return;
       }
 
-      const response = await fetch(`${process.env.API_URL}/api/products/${productId}`, {
+      const response = await fetch(`${baseURL}/api/products/${productId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -104,24 +112,6 @@ const DeleteProduct = () => {
   };
 
 
-  // Handle keyboard shortcuts
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      // Focus search input when pressing Ctrl+F or Cmd+F
-      if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
-        e.preventDefault();
-        document.getElementById('product-search-input')?.focus();
-      }
-      // Clear search when pressing Escape
-      if (e.key === 'Escape' && searchQuery) {
-        clearSearch();
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [searchQuery]);
-
   return (
     <div className="d-flex fit-screen">
       {/* Sidebar Backdrop */}
@@ -137,7 +127,7 @@ const DeleteProduct = () => {
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       {/* Content Area */}
-      <div className="flex-grow-1 p-3" style={{ marginLeft: '0', marginTop: '10px' }}>
+      <div className="flex-grow-1 content-area p-3">
         {/* Toggle Button on Mobile */}
         <button className="btn btn-outline-dark d-md-none mb-3" onClick={() => setIsSidebarOpen(true)}>
           <i className="bi bi-caret-left"></i> Menu

@@ -8,6 +8,7 @@ const AdminPage = ({baseURL}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   // Check for token on first load
   useEffect(() => {
@@ -37,6 +38,7 @@ const AdminPage = ({baseURL}) => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     setError('');
 
     try {
@@ -50,11 +52,14 @@ const AdminPage = ({baseURL}) => {
 
       if (data.success) {
         localStorage.setItem('token', data.token);
+        setIsLoading(false)
         navigate('/admin/add');
       } else {
         setError(data.message || 'Login failed');
+        setIsLoading(false)
       }
     } catch (err) {
+      setIsLoading(false)
       setError('Server error. Try again later.');
     }
   };
@@ -63,6 +68,20 @@ const AdminPage = ({baseURL}) => {
 
   return (
     <div className="container d-flex justify-content-center align-items-center fit-screen">
+      {isLoading && (
+        <div 
+          className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-75"
+          style={{ zIndex: 9999 }}
+        >
+          <div className="text-center text-white">
+            <div className="spinner-border text-light mb-3" style={{ width: '3rem', height: '3rem' }} role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+            <h5 className="text-white mb-2">Logging you in...</h5>
+            <p className="text-light mb-0">Please wait</p>
+          </div>
+        </div>
+      )}
       <div className="card shadow p-4" style={{ maxWidth: '400px', width: '100%' }}>
         <h3 className="text-center mb-4">Admin Login</h3>
         {error && <div className="alert alert-danger">{error}</div>}

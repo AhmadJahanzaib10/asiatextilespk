@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Sidebar from '../../components/Sidebar';
+import { useNavigate } from 'react-router-dom';
 
-const AddProduct = () => {
+const AddProduct = ({baseURL}) => {
+  const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -9,6 +11,14 @@ const AddProduct = () => {
   const [sideImages, setSideImages] = useState([]);
   const [status, setStatus] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(()=>{
+    const token = localStorage.getItem('token');
+      if (!token) {
+        navigate("/admin")
+        return;
+      }
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,7 +63,7 @@ const AddProduct = () => {
         return;
       }
 
-      const res = await fetch(`${process.env.API_URL}/api/products/create`, {
+      const res = await fetch(`${baseURL}/api/products/create`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -115,11 +125,18 @@ const AddProduct = () => {
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       {/* Content Area */}
-      <div className="flex-grow-1 p-3" style={{ marginLeft: '0', marginTop: '10px' }}>
+      <div className="flex-grow-1 content-area p-3">
         {/* Toggle Button on Mobile */}
         <button className="btn btn-outline-dark d-md-none mb-3" onClick={() => setIsSidebarOpen(true)}>
         <i class="bi bi-caret-left"></i> Menu
         </button>
+        {/* Status Message */}
+      {status && (
+        <div className={`mt-3 alert ${status.includes('✅') ? 'alert-success' : 'alert-danger'} alert-dismissible fade show`} role="alert">
+          {status}
+          <button type="button" className="btn-close" onClick={() => setStatus('')} aria-label="Close"></button>
+        </div>
+      )}
 
         <h3>Add Product</h3>
         <form onSubmit={handleSubmit} className="mt-3" encType="multipart/form-data">
@@ -188,14 +205,6 @@ const AddProduct = () => {
           )}
         </button>
       </form>
-
-      {/* Status Message */}
-      {status && (
-        <div className={`mt-3 alert ${status.includes('✅') ? 'alert-success' : 'alert-danger'} alert-dismissible fade show`} role="alert">
-          {status}
-          <button type="button" className="btn-close" onClick={() => setStatus('')} aria-label="Close"></button>
-        </div>
-      )}
       </div>
     </div>
   );

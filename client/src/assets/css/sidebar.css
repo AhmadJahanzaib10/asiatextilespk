@@ -1,9 +1,9 @@
 /* src/components/Sidebar.css */
 .sidebar {
     width: 280px;
-    height: 100vh;
+    height: calc(100vh - 56px);
     position: fixed;
-    top: 0;
+    top: 56px;
     left: -280px;
     transition: left 0.3s ease;
     z-index: 1050;
@@ -11,6 +11,11 @@
     box-shadow: 2px 0 15px rgba(1, 146, 62, 0.2);
     display: flex;
     flex-direction: column;
+}
+.navbar{
+    position: fixed;
+    width: 100%;
+    z-index: 9999999;
 }
 
 .sidebar.show {
@@ -108,8 +113,8 @@
 /* Responsive Design */
 @media (min-width: 768px) {
     .sidebar {
-        position: static;
-        height: 100vh;
+        /* position: static;
+        height: 100vh; */
         left: 0 !important;
     }
 }

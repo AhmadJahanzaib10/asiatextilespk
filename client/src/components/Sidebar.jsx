@@ -8,7 +8,7 @@ const Sidebar = ({ isOpen, onClose }) => {
   
   const handleLogout = () => {
     // Clear any authentication tokens/data
-    localStorage.removeItem('authToken');
+    localStorage.removeItem('token');
     sessionStorage.clear();
     
     // Redirect to home page
@@ -37,14 +37,6 @@ const Sidebar = ({ isOpen, onClose }) => {
       {/* Navigation */}
       <nav className="sidebar-nav">
         <ul className="nav flex-column">
-          <li className="nav-item">
-            <NavLink to="/admin" className={({ isActive }) =>
-              `nav-link sidebar-link ${isActive ? 'active' : ''}`
-            }>
-              <i className="bi bi-house-door"></i>
-              <span>Dashboard</span>
-            </NavLink>
-          </li>
           <li className="nav-item">
             <NavLink to="/admin/add" className={({ isActive }) =>
               `nav-link sidebar-link ${isActive ? 'active' : ''}`
