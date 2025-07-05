@@ -54,9 +54,9 @@ const ModifyProduct = ({ baseURL }) => {
     }
   }, [selectedProduct]);
 
-  useEffect(()=>{
-    console.log(formData)
-  }, [formData])
+  // useEffect(()=>{
+  //   console.log("After Update State", formData)
+  // }, [formData])
 
   const fetchProducts = async () => {
     try {
@@ -155,11 +155,15 @@ const ModifyProduct = ({ baseURL }) => {
     });
 
     // Also send old images (URLs) in a separate field
-    console.log("SideImages Before Sending", formData.sideImages)
-    const existingURLs = formData.sideImages;
+    // console.log("SideImages Before Sending", formData.sideImages)
+     // Filter only valid existing URLs to avoid "{}" error
+  const existingURLs = formData.sideImages.filter(
+    (img) => typeof img === 'string' && img.startsWith('http')
+  );
+
     data.append("existingSideImages", JSON.stringify(existingURLs));
 
-    console.log("Data after sending form", data)
+    // console.log("Data after sending form", data)
 
     try {
       const token = localStorage.getItem("token")
@@ -174,11 +178,14 @@ const ModifyProduct = ({ baseURL }) => {
 
       const result = await res.json();
       if (result.success) {
+        setStatus("Product Updated Successfully")
         await fetchProducts();
       } else {
+        setStatus(`❌ Update failed:', ${result.message}`)
         console.error('❌ Update failed:', result.message);
       }
     } catch (error) {
+      setStatus(`❌ Network or server error:', ${error}`)
       console.error('❌ Network or server error:', error);
     } finally {
       handleClose();

@@ -9,7 +9,8 @@ import Header from './components/Header'
 import Home from './pages/Home';
 
 function App() {
-  const baseURL = "http://localhost:5000";
+  const baseURL = "https://asiatextilespk.onrender.com";
+  // const baseURL = "http://localhost:5000";
   return (
     <>
       <Header />
