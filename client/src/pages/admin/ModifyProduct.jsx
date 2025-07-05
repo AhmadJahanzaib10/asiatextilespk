@@ -178,7 +178,7 @@ const ModifyProduct = ({ baseURL }) => {
 
       const result = await res.json();
       if (result.success) {
-        setStatus("Product Updated Successfully")
+        setStatus("✅ Product Updated Successfully")
         await fetchProducts();
       } else {
         setStatus(`❌ Update failed:', ${result.message}`)
