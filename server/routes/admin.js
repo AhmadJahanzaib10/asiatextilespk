@@ -4,6 +4,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const Admin = require('../models/Admin.model');
+const authMiddleware = require("../middleware/auth")
 
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
@@ -24,7 +25,7 @@ console.log('📄 All admins from DB:', all);
       return res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
 
-    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '24h' });
     res.json({ success: true, token });
   } catch (err) {
     console.error(err);

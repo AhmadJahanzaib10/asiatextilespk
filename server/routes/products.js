@@ -46,7 +46,7 @@ router.post('/create', authMiddleware, (req, res) => {
       const mainImgUrl = req.files.mainImg[0].path;
 
       // Get side images URLs from Cloudinary (if any)
-      const sideImagesUrls = req.files.sideImages 
+      const sideImagesUrls = req.files.sideImages
         ? req.files.sideImages.map(file => file.path)
         : [];
 
@@ -75,7 +75,7 @@ router.post('/create', authMiddleware, (req, res) => {
       // If there was an error after uploading to Cloudinary, we should clean up
       if (req.files) {
         const filesToDelete = [];
-        
+
         if (req.files.mainImg) {
           filesToDelete.push(...req.files.mainImg.map(file => file.filename));
         }
@@ -105,7 +105,7 @@ router.post('/create', authMiddleware, (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const products = await Product.find().sort({ createdAt: -1 });
-    
+
     res.json({
       success: true,
       count: products.length,
@@ -124,7 +124,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
-    
+
     if (!product) {
       return res.status(404).json({
         success: false,
@@ -171,7 +171,7 @@ router.put('/:id', authMiddleware, (req, res) => {
 
       // Prepare update data
       const updateData = {};
-      
+
       if (title) updateData.title = title.trim();
       if (description) updateData.description = description.trim();
 
@@ -184,24 +184,49 @@ router.put('/:id', authMiddleware, (req, res) => {
         } catch (deleteError) {
           console.error('Error deleting old main image:', deleteError);
         }
-        
+
         updateData.mainImg = req.files.mainImg[0].path;
       }
-
+      console.log("Handling Side Images")
       // Handle side images update
-      if (req.files && req.files.sideImages && req.files.sideImages.length > 0) {
-        // Delete old side images from Cloudinary
-        for (const oldSideImg of existingProduct.sideImages) {
-          try {
-            const oldSideImgPublicId = oldSideImg.split('/').pop().split('.')[0];
-            await cloudinary.uploader.destroy(`asiatextiles/products/${oldSideImgPublicId}`);
-          } catch (deleteError) {
-            console.error('Error deleting old side image:', deleteError);
-          }
+      // Always parse existing side image URLs (from frontend)
+      let existingSideImages = [];
+      if (req.body.existingSideImages) {
+        try {
+          existingSideImages = JSON.parse(req.body.existingSideImages);
+        } catch (err) {
+          console.error('Invalid existingSideImages JSON');
+          existingSideImages = [];
         }
-        
-        updateData.sideImages = req.files.sideImages.map(file => file.path);
       }
+
+      // 🧠 Step 1: Delete only the images that are NOT in the existing list
+      const imagesToDelete = existingProduct.sideImages.filter(
+        oldImg => !existingSideImages.includes(oldImg)
+      );
+
+      for (const oldSideImg of imagesToDelete) {
+        try {
+          const parts = oldSideImg.split('/upload/');
+          const pathWithExt = parts[1];
+          const publicId = pathWithExt.replace(/\.[^/.]+$/, ''); // remove file extension
+          await cloudinary.uploader.destroy(publicId);
+          console.log("✅ Deleted:", publicId);
+        } catch (err) {
+          console.error("❌ Failed to delete side image:", err);
+        }
+      }
+
+      // 🧠 Step 2: Add back kept + new uploaded images
+      let updatedSideImages = [...existingSideImages];
+
+      // ✅ Only add new ones if any are uploaded
+      if (req.files && req.files.sideImages && req.files.sideImages.length > 0) {
+        const newUploads = req.files.sideImages.map(file => file.path);
+        updatedSideImages.push(...newUploads);
+      }
+
+      updateData.sideImages = updatedSideImages;
 
       // Update product
       const updatedProduct = await Product.findByIdAndUpdate(
@@ -232,7 +257,7 @@ router.put('/:id', authMiddleware, (req, res) => {
 router.delete('/:id', authMiddleware, async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
-    
+
     if (!product) {
       return res.status(404).json({
         success: false,
