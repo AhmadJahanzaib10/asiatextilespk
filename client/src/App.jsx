@@ -7,10 +7,11 @@ import DeleteProduct from './pages/admin/DeleteProduct';
 import ModifyProduct from './pages/admin/ModifyProduct';
 import Header from './components/Header'
 import Home from './pages/Home';
+import Footer from './components/Footer';
 
 function App() {
-  const baseURL = "https://asiatextilespk.onrender.com";
-  // const baseURL = "http://localhost:5000";
+  // const baseURL = "https://asiatextilespk.onrender.com";
+  const baseURL = "http://localhost:5000";
   return (
     <>
       <Header />
@@ -22,6 +23,7 @@ function App() {
         <Route path="/admin/modify" element={<ModifyProduct baseURL={baseURL} />} />
         <Route path="*" element={<Home />} />
       </Routes>
+      <Footer/>
     </>
   );
 }

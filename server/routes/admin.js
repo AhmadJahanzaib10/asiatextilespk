@@ -12,7 +12,6 @@ router.post('/login', async (req, res) => {
 
   try {
     const all = await Admin.find();
-console.log('📄 All admins from DB:', all);
     const user = await Admin.findOne({ username });
     if (!user) {
       console.log("Username is incorrect");
@@ -25,7 +24,9 @@ console.log('📄 All admins from DB:', all);
       return res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
 
-    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '24h' });
+    console.log(username)
+
+    const token = jwt.sign({ id: user._id, username, role: user.role }, process.env.JWT_SECRET, { expiresIn: '24h' });
     res.json({ success: true, token });
   } catch (err) {
     console.error(err);

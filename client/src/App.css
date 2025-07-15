@@ -1,10 +1,14 @@
 /* src/app.css */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap');
+
 :root {
   --button-color-1: #01923E;
   --bg-color-1: #01923E;
   --button-color-1-hover: #027231;
   --text-color: #1E1718;
   --bg-color: #ffffff;
+  --primary-font: "IBM Plex Sans", sans-serif;
+  --secondary-font: "Merriweather", serif;
 }
 
 body {
@@ -13,6 +17,9 @@ body {
   font-family: sans-serif;
   background-color: var(--bg-color);
   color: var(--text-color);
+}
+.pt-75{
+  padding-top: 75px !important;
 }
 
 .fit-screen{
@@ -47,4 +54,11 @@ body {
     margin-left: 0px;
     margin-top: 56px;
   }
+}
+
+.primary-font{
+  font-family: var(--primary-font) !important;
+}
+.secondary-font{
+  font-family: var(--secondary-font) !important;
 }

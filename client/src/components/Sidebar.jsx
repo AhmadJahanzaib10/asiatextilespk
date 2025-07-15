@@ -1,10 +1,13 @@
 // src/components/Sidebar.jsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import '../assets/css/sidebar.css';
+import { jwtDecode } from "jwt-decode";
+
 
 const Sidebar = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
+  const [user, setUser] = useState({});
   
   const handleLogout = () => {
     // Clear any authentication tokens/data
@@ -17,6 +20,16 @@ const Sidebar = ({ isOpen, onClose }) => {
     // Close sidebar on mobile
     if (onClose) onClose();
   };
+
+  useEffect(()=>{
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      const decoded = jwtDecode(token);
+      setUser(decoded);
+      // { id: '...', username: '...', role: '...', iat: ..., exp: ... }
+    }
+  })
 
   return (
     <div className={`sidebar bg-gradient text-white ${isOpen ? 'show' : ''}`}>
@@ -31,7 +44,6 @@ const Sidebar = ({ isOpen, onClose }) => {
             <i className="bi bi-x"></i>
           </button>
         </div>
-        <hr className="sidebar-divider" />
       </div>
 
       {/* Navigation */}
@@ -73,8 +85,8 @@ const Sidebar = ({ isOpen, onClose }) => {
               <i className="bi bi-person-circle fs-3"></i>
             </div>
             <div>
-              <div className="fw-semibold">Admin User</div>
-              <small className="text-light opacity-75">Administrator</small>
+              <div className="fw-semibold">{user.username}</div>
+              <small className="text-light opacity-75">{user.role}</small>
             </div>
           </div>
         </div>
