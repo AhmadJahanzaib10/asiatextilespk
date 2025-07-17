@@ -7,11 +7,14 @@ import DeleteProduct from './pages/admin/DeleteProduct';
 import ModifyProduct from './pages/admin/ModifyProduct';
 import Header from './components/Header'
 import Home from './pages/Home';
-import Footer from './components/Footer';
+import Certifications from './pages/admin/Certifications';
+import BrandInfo from './pages/admin/BrandInfo';
+import Announcement from './pages/admin/Announcement';
+import ContactDetails from './pages/admin/ContactDetails';
 
 function App() {
-  // const baseURL = "https://asiatextilespk.onrender.com";
-  const baseURL = "http://localhost:5000";
+  const baseURL = "https://asiatextilespk.onrender.com";
+  // const baseURL = "http://localhost:5000";
   return (
     <>
       <Header />
@@ -21,9 +24,12 @@ function App() {
         <Route path="/admin/add" element={<AddProduct baseURL={baseURL} />} />
         <Route path="/admin/delete" element={<DeleteProduct baseURL={baseURL} />} />
         <Route path="/admin/modify" element={<ModifyProduct baseURL={baseURL} />} />
+        <Route path="/admin/certifications" element={<Certifications baseURL={baseURL} />} />
+        <Route path="/admin/brandinfo" element={<BrandInfo baseURL={baseURL} />} />
+        <Route path="/admin/announcements" element={<Announcement baseURL={baseURL} />} />
+        <Route path="/admin/contact" element={<ContactDetails baseURL={baseURL} />} />
         <Route path="*" element={<Home />} />
       </Routes>
-      <Footer/>
     </>
   );
 }

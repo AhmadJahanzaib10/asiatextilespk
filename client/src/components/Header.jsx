@@ -46,9 +46,21 @@ const Header = () => {
     }
   };
 
+  const changeLanguage = (lang) => {
+    const interval = setInterval(() => {
+      const select = document.querySelector('.goog-te-combo');
+      console.log(select)
+      if (select) {
+        select.value = lang;
+        select.dispatchEvent(new Event('change'));
+        clearInterval(interval);
+      }
+    }, 100); // Wait for the translate element to load
+  };
+
   return (
     <>
-      <StyledNavbar ref={navbarRef} className="navbar navbar-expand-lg navbar-light bg-light">
+      <StyledNavbar ref={navbarRef} className="navbar py-0 navbar-expand-lg navbar-light bg-light">
         <div className="container">
           {/* Logo */}
           <a className="navbar-brand d-flex gap-2 align-items-center" href="#">
@@ -78,7 +90,7 @@ const Header = () => {
               <li className="nav-item">
                 <a className="nav-link primary-font" href="#">About Us</a>
               </li>
-              
+
               {/* Dropdown with sub-dropdowns */}
               <li className={`nav-item dropdown ${activeDropdown === 'services' ? 'show' : ''}`}>
                 <a
@@ -111,7 +123,7 @@ const Header = () => {
                       <li><a className="dropdown-item primary-font" href="#">E-commerce</a></li>
                     </ul>
                   </li>
-                  
+
                   {/* Second sub-dropdown */}
                   <li className={`dropdown-submenu ${activeSubDropdown === 'digital-marketing' ? 'show' : ''}`}>
                     <a
@@ -143,6 +155,34 @@ const Header = () => {
               <li className="nav-item">
                 <a className="nav-link primary-font" href="#">Contact Us</a>
               </li>
+              <li className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="bi bi-translate"></i> Language
+                </a>
+                <ul className="dropdown-menu">
+                  <li><a className="dropdown-item" onClick={() => changeLanguage('en')} href="#">
+                    <img
+                    src="https://flagcdn.com/16x12/us.png"
+                    width="16"
+                    height="12"
+                    style={{marginRight: "5px"}}
+                    alt="USA" />English</a></li>
+                  <li><a className="dropdown-item" onClick={() => changeLanguage('fr')} href="#">
+                  <img
+                    src="https://flagcdn.com/16x12/fr.png"
+                    width="16"
+                    height="12"
+                    style={{marginRight: "5px"}}
+                    alt="France" />French</a></li>
+                  <li><a className="dropdown-item" onClick={() => changeLanguage('es')} href="#">
+                  <img
+                    src="https://flagcdn.com/16x12/es.png"
+                    width="16"
+                    height="12"
+                    style={{marginRight: "5px"}}
+                    alt="USA" />Spanish</a></li>
+                </ul>
+              </li>
             </ul>
           </div>
         </div>
@@ -154,17 +194,13 @@ const Header = () => {
 // Styled components for custom styling
 const StyledNavbar = styled.nav`
   .navbar-brand img {
-    width: 50px;
+    width: 67px;
   }
   
   .navbar-nav .nav-link {
     font-weight: 500;
     margin: 0 0.5rem;
     transition: color 0.3s ease;
-    
-    &:hover {
-      color: var(--bg-color-1) !important;
-    }
   }
   
   .dropdown-menu {

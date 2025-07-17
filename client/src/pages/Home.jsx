@@ -4,6 +4,8 @@ import '../assets/css/home.css'
 import heroBg from '../assets/images/hero-bg.jpg';
 import HomeCards from '../components/HomeCards'
 import Contact from '../components/Contact'
+import Footer from '../components/Footer'
+import WhatsAppFloat from '../components/WhatsAppFloat';
 
 const Home = () => {
   // Sample data - replace with your database fetch
@@ -34,6 +36,7 @@ const Home = () => {
       hoverImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop"
     }
   ];
+
 
   // Function to duplicate items for seamless loop
   const getDuplicatedItems = (items) => {
@@ -119,6 +122,8 @@ const Home = () => {
         </div>
       </div>
       <Contact/>
+      <WhatsAppFloat/>
+      <Footer/>
     </div>
   )
 }

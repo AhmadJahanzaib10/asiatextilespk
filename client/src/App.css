@@ -28,9 +28,11 @@ body {
 
 .content-area{
   margin-left: 280px;
-  margin-top: 56px;
+  margin-top: 74px;
 }
-
+.form-control:focus{
+  box-shadow: none !important;
+}
 .bg-color-1{
   background-color: var(--bg-color-1);
 }
@@ -52,7 +54,7 @@ body {
 @media screen and (max-width:767px) {
   .content-area{
     margin-left: 0px;
-    margin-top: 56px;
+    margin-top: 74px;
   }
 }
 
@@ -61,4 +63,15 @@ body {
 }
 .secondary-font{
   font-family: var(--secondary-font) !important;
+}
+.nav-item{
+  transition: 0.3s all linear;
+}
+
+.nav-item:hover{
+  background-color: var(--bg-color-1) !important;
+  color: #fff !important;
+}
+.nav-item:hover .nav-link{
+  color: #fff !important;
 }

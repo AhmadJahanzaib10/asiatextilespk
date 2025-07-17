@@ -29,17 +29,13 @@ const Sidebar = ({ isOpen, onClose }) => {
       setUser(decoded);
       // { id: '...', username: '...', role: '...', iat: ..., exp: ... }
     }
-  })
+  },[])
 
   return (
     <div className={`sidebar bg-gradient text-white ${isOpen ? 'show' : ''}`}>
       {/* Header */}
       <div className="sidebar-header">
         <div className="d-flex justify-content-between align-items-center">
-          <div className="d-flex align-items-center gap-2">
-            <i className="bi bi-speedometer2 fs-4"></i>
-            <h5 className="mb-0 fw-bold">Admin Panel</h5>
-          </div>
           <button className="btn btn-sm btn-outline-light d-md-none" onClick={onClose}>
             <i className="bi bi-x"></i>
           </button>
@@ -71,6 +67,38 @@ const Sidebar = ({ isOpen, onClose }) => {
             }>
               <i className="bi bi-pencil-square"></i>
               <span>Modify Product</span>
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink to="/admin/certifications" className={({ isActive }) =>
+              `nav-link sidebar-link ${isActive ? 'active' : ''}`
+            }>
+              <i class="bi bi-patch-check"></i>
+              <span>Certifications</span>
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink to="/admin/brandinfo" className={({ isActive }) =>
+              `nav-link sidebar-link ${isActive ? 'active' : ''}`
+            }>
+              <i class="bi bi-info-circle"></i>
+              <span>Brand Info</span>
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink to="/admin/announcements" className={({ isActive }) =>
+              `nav-link sidebar-link ${isActive ? 'active' : ''}`
+            }>
+              <i class="bi bi-megaphone"></i>
+              <span>Announcements</span>
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink to="/admin/contact" className={({ isActive }) =>
+              `nav-link sidebar-link ${isActive ? 'active' : ''}`
+            }>
+              <i class="bi bi-person-lines-fill"></i>
+              <span>Contact Details</span>
             </NavLink>
           </li>
         </ul>

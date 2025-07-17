@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Loader = ({message}) => {
-  console.log(message)
   return (
     <>
     <StyledWrapper style={{background: "#00000042", zIndex: 99999999, width: "100%", height: "110vh", position: "absolute", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", gap: "30px"}}>

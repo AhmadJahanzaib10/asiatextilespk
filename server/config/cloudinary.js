@@ -23,6 +23,14 @@ const storage = new CloudinaryStorage({
   },
 });
 
+const certificateStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'asiatextiles/certificates', // Target folder in Cloudinary
+    allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp'], // Allow common image types
+  },
+});
+
 // Create multer instance
 const upload = multer({
   storage: storage,
@@ -39,4 +47,19 @@ const upload = multer({
   },
 });
 
-module.exports = { cloudinary, upload };
+const uploadCertificate = multer({
+  storage: certificateStorage,
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5MB max (optional)
+  },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed!'), false);
+    }
+  },
+});
+
+
+module.exports = { cloudinary, upload,uploadCertificate };
